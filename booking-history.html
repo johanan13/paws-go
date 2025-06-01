@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Booking History</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/booking-history.css">
+</head>
+<body>
+
+  <!-- Responsive Navbar -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <div class="container" id="home">
+        <a class="navbar-brand" href="#">
+          <img src="assets/p2g-logo-colored-copy.png" alt="Paws2Go logo" width="100" height="32">
+        </a>
+
+        <div class="d-lg-none d-flex align-items-center gap-2">
+          <a href="profile.html" class="nav-link p-0">
+            <img src="assets/icons/profile.png" alt="User profile icon" width="30" height="30" class="rounded-circle">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav mx-auto">
+            <a class="nav-link" href="my-pets.html">My Pets</a>
+            <a class="nav-link active fw-semibold mx-3" href="booking-history.html">Booking History</a>
+            <a class="nav-link mx-3" href="messages.html">Messages</a>
+            <a class="nav-link mx-3" href="notification.html">Notification</a>
+          </div>
+
+          <div class="d-none d-lg-flex">
+           <div class="dropdown">
+  <button class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center"
+          id="profileDropdown"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          style="width: 40px; height: 40px; font-weight: 600; font-size: 16px; border: none;">
+    <span id="navbarInitials">AB</span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end shadow-sm p-3" aria-labelledby="profileDropdown" style="min-width: 220px;">
+    <li class="fw-bold" id="dropdownUserName">Alex Bautista</li>
+    <li class="text-muted small" id="dropdownUserEmail">alexb@example.com</li>
+    <li class="text-muted small mb-2" id="dropdownUserPhone">+63 912 345 6789</li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item text-danger" href="#" onclick="signOut()">Sign Out</a></li>
+  </ul>
+</div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main role="main">
+    <div class="container mt-4 mb-2">
+      <h1 class="fw-bold" style="font-size: 1.8rem; color: #2F455C;">Booking</h1>
+    </div>
+
+    <div class="container mb-5">
+      <form class="bg-white shadow-sm p-4 rounded-4">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="petSelect" class="form-label">Choose Pet</label>
+            <select id="petSelect" class="form-select">
+              <option selected disabled>Select pet</option>
+              <option>MingMing</option>
+              <option>Snow</option>
+              <option>Brownie</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="serviceSelect" class="form-label">Type of Service</label>
+            <select id="serviceSelect" class="form-select">
+              <option selected disabled>Select type of service</option>
+              <option>Vaccination</option>
+              <option>Check-up</option>
+              <option>Grooming</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="dateInput" class="form-label">Date</label>
+            <input type="date" id="dateInput" class="form-control" placeholder="Enter date">
+          </div>
+
+          <div class="col-md-6">
+            <label for="timeInput" class="form-label">Time</label>
+            <input type="time" id="timeInput" class="form-control" placeholder="Enter time">
+          </div>
+
+          <div class="col-md-6">
+            <label for="locationInput" class="form-label">Pickup/Meeting Point</label>
+            <input type="text" class="form-control" id="locationInput" placeholder="Start typing your location">
+          </div>
+
+          <div class="col-md-6">
+            <label for="paymentSelect" class="form-label">Payment Method</label>
+            <select id="paymentSelect" class="form-select">
+              <option selected disabled>Select payment method</option>
+              <option>Cash</option>
+              <option>GCash</option>
+              <option>Card</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label for="notesInput" class="form-label">Notes to Vet</label>
+            <textarea id="notesInput" class="form-control" rows="2" placeholder="Enter note"></textarea>
+          </div>
+
+          <div class="col-12 mt-4">
+            <button type="submit" class="btn w-100 text-black fw-semibold" style="background-color: #1DCDFE;">Book</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="container my-5">
+      <div class="bg-white rounded-4 shadow-sm p-4">
+        <h2 class="fw-semibold text-muted mb-3">Booking History</h2>
+        <label for="searchInput" class="form-label visually-hidden">Search by pet name</label>
+        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search by pet name">
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle" style="min-width: 900px;">
+            <thead class="table-light">
+              <tr>
+                <th>Book #</th>
+                <th>Pet Name</th>
+                <th>Service</th>
+                <th>Date & Time</th>
+                <th>Location</th>
+                <th>Description</th>
+                <th>Payment</th>
+              </tr>
+            </thead>
+            <tbody id="bookingTable">
+              <tr data-pet="mingming">
+                <td>1</td>
+                <td>MingMing</td>
+                <td>Home Visit</td>
+                <td>Jun 24, 2025 10:00 AM</td>
+                <td>123 Maginhawa Street...</td>
+                <td class="text-danger">Has not eaten for 3 days</td>
+                <td>GCash</td>
+              </tr>
+              <tr data-pet="brownie">
+                <td>2</td>
+                <td>Brownie</td>
+                <td>Emergency</td>
+                <td>Mar 10, 2025 9:00 AM</td>
+                <td>456 Katipunan Avenue...</td>
+                <td>Got crash by a truck</td>
+                <td>Maya</td>
+              </tr>
+              <tr data-pet="snow">
+                <td>3</td>
+                <td>Snow</td>
+                <td>Home Visit</td>
+                <td>Nov 10, 2025 11:00 AM</td>
+                <td>789 Commonwealth Ave...</td>
+                <td>Keeps vomiting their food</td>
+                <td>Card</td>
+              </tr>
+              <tr data-pet="snow">
+                <td>4</td>
+                <td>Snow</td>
+                <td>Home Visit</td>
+                <td>Dec 20, 2025 1:00 AM</td>
+                <td>101 Timog Avenue, Baryo...</td>
+                <td>5 days sick</td>
+                <td>COD</td>
+              </tr>
+              <tr data-pet="brownie">
+                <td>5</td>
+                <td>Brownie</td>
+                <td>Emergency</td>
+                <td>Jul 25, 2025 4:00 AM</td>
+                <td>222 Tomas Morato Avenue...</td>
+                <td>Fell from the window</td>
+                <td>Maya</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script src="./script/search-booking.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

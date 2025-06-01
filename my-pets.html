@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Pets</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/my-pets.css">
+</head>
+<body>
+
+  <!-- Responsive Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container" id="home">
+      <a class="navbar-brand" href="#">
+        <img src="assets/p2g-logo-colored-copy.png" alt="Paws2Go Logo" width="100" height="32">
+      </a>
+
+      <div class="d-lg-none d-flex align-items-center gap-2">
+        <a href="profile.html" class="nav-link p-0">
+          <img src="assets/icons/profile.png" alt="User Profile Icon" width="30" height="30" class="rounded-circle">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav mx-auto">
+          <a class="nav-link active fw-semibold mx-3" href="my-pets.html">My Pets</a>
+          <a class="nav-link mx-3" href="booking-history.html">Booking History</a>
+          <a class="nav-link mx-3" href="messages.html">Messages</a>
+          <a class="nav-link mx-3" href="notification.html">Notification</a>
+        </div>
+        <div class="d-none d-lg-flex">
+
+<div class="dropdown">
+  <button class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center"
+          id="profileDropdown"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          style="width: 40px; height: 40px; font-weight: 600; font-size: 16px; border: none;">
+    <span id="navbarInitials">AB</span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end shadow-sm p-3" aria-labelledby="profileDropdown" style="min-width: 220px;">
+    <li class="fw-bold" id="dropdownUserName">Alex Bautista</li>
+    <li class="text-muted small" id="dropdownUserEmail">alexb@example.com</li>
+    <li class="text-muted small mb-2" id="dropdownUserPhone">+63 912 345 6789</li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item text-danger" href="#" onclick="signOut()">Sign Out</a></li>
+  </ul>
+</div>
+
+
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4 mb-2">
+    <h1 class="fw-bold" style="font-size: 1.8rem; color: #2F455C;">My Pets</h1>
+  </div>
+
+  <div class="container my-4">
+    <div class="input-group">
+      <input type="text" id="petSearchInput" class="form-control" placeholder="Search by pet name" aria-label="Search by pet name">
+      <button class="btn btn-info text-black" type="button" aria-label="Search pets">
+        <i class="bi bi-search"></i>
+      </button>
+      <button class="btn btn-outline-secondary" type="button" aria-label="Filter pets">
+        <i class="bi bi-funnel"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="container my-4">
+    <div class="row g-4" id="petCardContainer">
+
+      <!-- Pet Card 1 -->
+
+      <div class="col-md-6 col-lg-4" data-pet="mingming">
+        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#petModalMingMing">
+          <div class="card shadow-sm rounded-4 p-0 d-flex flex-row align-items-stretch h-100 overflow-hidden">
+            <img src="./assets/pets/mingming.png" alt="Photo of MingMing the Persian cat" style="width: 150px; object-fit: cover;">
+            <div class="p-3">
+              <h2 class="fw-bold text-dark fs-5">MingMing</h2>
+              <span class="badge bg-info text-dark me-2">Cat</span>
+              <span class="badge bg-light text-dark border">Persian</span>
+              <p class="mb-0 mt-2 small"><strong>Age:</strong> 10 months</p>
+              <p class="mb-0 small"><strong>Gender:</strong> Male</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Pet Card 2 -->
+      <div class="col-md-6 col-lg-4" data-pet="brownie">
+      <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#petModalBrownie">
+        <div class="card shadow-sm rounded-4 p-0 d-flex flex-row align-items-stretch h-100 overflow-hidden">
+          <img src="./assets/pets/brownie.png" alt="Photo of Brownie the Chihuahua dog" style="width: 150px; object-fit: cover;">
+          <div class="p-3">
+            <h2 class="fw-bold text-dark fs-5">Brownie</h2>
+            <span class="badge bg-info text-dark me-2">Dog</span>
+            <span class="badge bg-light text-dark border">Chihuahua</span>
+            <p class="mb-0 mt-2 small"><strong>Age:</strong> 5 years</p>
+            <p class="mb-0 small"><strong>Gender:</strong> Male</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+         <!-- Pet Card 2 -->
+         <div class="col-md-6 col-lg-4" data-pet="snow">
+          <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#petModalSnow">
+            <div class="card shadow-sm rounded-4 p-0 d-flex flex-row align-items-stretch h-100 overflow-hidden">
+              <img src="./assets/pets/snow.png" alt="Photo of Snow the American Short Hair cat" style="width: 150px; object-fit: cover;">
+              <div class="p-3">
+                <h2 class="fw-bold text-dark fs-5">Snow</h2>
+                <span class="badge bg-info text-dark me-2">Cat</span>
+                <span class="badge bg-light text-dark border">American Short Hair</span>
+                <p class="mb-0 mt-2 small"><strong>Age:</strong> 3 years</p>
+                <p class="mb-0 small"><strong>Gender:</strong> Female</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+
+      <!-- Add New Pet Card -->
+      <div class="col-md-6 col-lg-4">
+        <a href="new-pet-profile.html" class="text-decoration-none">
+          <div class="card shadow-sm rounded-4 d-flex align-items-center justify-content-center h-100 p-4 text-center" style="min-height: 120px;">
+            <div>
+              <div class="mb-2">
+                <i class="bi bi-plus-circle" style="font-size: 2rem; color: #6c757d;"></i>
+              </div>
+              <p class="mb-0 text-muted">Add a new pet profile</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MingMing Modal -->
+  <div class="modal fade" id="petModalMingMing" tabindex="-1" aria-labelledby="petModalMingMingLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 bg-transparent">
+        <div class="card rounded-4 border-primary border-2 p-4">
+          <div class="d-flex align-items-start">
+            <img src="./assets/pets/mingming.png" alt="MingMing the Persian cat" class="rounded-3 me-4" width="250" height="250" style="object-fit: cover;">
+            <div>
+              <h5 class="fw-bold mb-2" id="petModalMingMingLabel">MingMing</h5>
+              <span class="badge bg-info text-dark me-2">Cat</span>
+              <span class="badge bg-success-subtle text-dark border">Persian</span>
+              <div class="mt-3">
+                <p class="mb-1"><strong>Age:</strong> 10 months</p>
+                <p class="mb-1"><strong>Gender:</strong> Male</p>
+                <p class="mb-1"><strong>Weight:</strong> ---</p>
+                <p class="mb-1"><strong>Vaccination Status:</strong> Yes</p>
+                <p class="mb-1"><strong>Allergies/Existing Conditions:</strong> None</p>
+                <p class="mb-0"><strong>Medical History:</strong> None</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Brownie Modal -->
+  <div class="modal fade" id="petModalBrownie" tabindex="-1" aria-labelledby="petModalBrownieLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 bg-transparent">
+        <div class="card rounded-4 border-primary border-2 p-4">
+          <div class="d-flex align-items-start">
+            <img src="./assets/pets/brownie.png" alt="Brownie the Chihuahua dog" class="rounded-3 me-4" width="250" height="250" style="object-fit: cover;">
+            <div>
+              <h5 class="fw-bold mb-2" id="petModalBrownieLabel">Brownie</h5>
+              <span class="badge bg-info text-dark me-2">Dog</span>
+              <span class="badge bg-success-subtle text-dark border">Chihuahua</span>
+              <div class="mt-3">
+                <p class="mb-1"><strong>Age:</strong> 5 years</p>
+                <p class="mb-1"><strong>Gender:</strong> Male</p>
+                <p class="mb-1"><strong>Weight:</strong> ---</p>
+                <p class="mb-1"><strong>Vaccination Status:</strong> No</p>
+                <p class="mb-1"><strong>Allergies/Existing Conditions:</strong> None</p>
+                <p class="mb-0"><strong>Medical History:</strong> None</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Snow Modal -->
+  <div class="modal fade" id="petModalSnow" tabindex="-1" aria-labelledby="petModalSnowLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 bg-transparent">
+        <div class="card rounded-4 border-primary border-2 p-4">
+          <div class="d-flex align-items-start">
+            <img src="./assets/pets/snow.png" alt="Snow the American Short Hair cat" class="rounded-3 me-4" width="250" height="250" style="object-fit: cover;">
+            <div>
+              <h5 class="fw-bold mb-2" id="petModalSnowLabel">Snow</h5>
+              <span class="badge bg-info text-dark me-2">Cat</span>
+              <span class="badge bg-success-subtle text-dark border">American Short Hair</span>
+              <div class="mt-3">
+                <p class="mb-1"><strong>Age:</strong> 3 years</p>
+                <p class="mb-1"><strong>Gender:</strong> Female</p>
+                <p class="mb-1"><strong>Weight:</strong> ---</p>
+                <p class="mb-1"><strong>Vaccination Status:</strong> Yes</p>
+                <p class="mb-1"><strong>Allergies/Existing Conditions:</strong> None</p>
+                <p class="mb-0"><strong>Medical History:</strong> None</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 shadow-sm">
+      <div class="modal-body text-center p-4">
+        <div class="d-flex justify-content-center align-items-center bg-primary text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; font-size: 24px; font-weight: 600;">
+          <!-- Initials -->
+          <span id="userInitial">AB</span>
+        </div>
+        <h5 class="fw-bold mb-1" id="userName">Alex Bautista</h5>
+        <p class="text-muted mb-1" id="userEmail">alexb@example.com</p>
+        <p class="text-muted mb-3" id="userPhone">+63 912 345 6789</p>
+        <button class="btn btn-outline-danger w-100" onclick="signOut()">Sign Out</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- JS -->
+  <script src="./script/search-pet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

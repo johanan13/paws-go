@@ -1,0 +1,94 @@
+/* Apply Poppins font to entire page */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+  padding: 0;
+  }
+  
+/* Dark blue background */
+.navbar-custom {
+    background-color: #2F455C !important;
+  }
+  
+  /* White border for hamburger (toggler) */
+  .navbar-custom .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+    margin-right: 15px;
+  }
+  
+  /* White hamburger icon using inline SVG */
+  .navbar-custom .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+  
+  /* White text for brand and nav links */
+  .navbar-custom .nav-link,
+  .navbar-custom .navbar-brand {
+    color: white !important;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  
+  /* Hover effect for nav links */
+  .navbar-custom .nav-link:hover {
+    color: #00aaff !important;
+  }
+  
+ /* Shared button styling */
+.btn {
+    background-color: #25d0ff;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  
+  /* Shared hover effect */
+  .btn:hover {
+    background-color: #0b5ed7;
+    color: white;
+  }
+  
+  /* Specific widths (optional overrides) */
+  .btn-login {
+    width: 100px;
+  }
+  
+  .btn-book-now {
+    width: 180px;
+  }
+  
+  /* Fur Parents Section Background */
+.fur-parents-section {
+    background: linear-gradient(
+        rgba(0, 31, 63, 0.592), 
+        rgba(0, 31, 63, 0.547)
+      ),
+      url('../assets/home/image2.png') no-repeat center center;
+    background-size: cover;
+    color: white;
+    padding: 5rem 1rem;
+  }
+  
+  /* Optional: Make text inside white */
+  .fur-parents-section h1,
+  .fur-parents-section p {
+    color: white;
+  }
+  
+  .bg-dark-blue {
+    background-color: #2F455C;
+    background-size: cover;
+    padding: 5rem 1rem; /* or match the exact dark blue you use in the navbar */
+  }
+
+
+  /* Make h6 inside cards larger on laptops and up */
+@media (min-width: 1000px) {
+    .feature-card h6 {
+      font-size: 1.25rem; /* You can increase this to 1.5rem or more if needed */
+    }
+  }
+  
+  
