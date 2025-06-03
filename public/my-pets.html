@@ -15,6 +15,7 @@
 </head>
 <body>
 
+<!-- Responsive Navbar -->
   <!-- Responsive Navbar -->
   <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container" id="home">
@@ -35,34 +36,21 @@
 
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav mx-auto">
-          <a class="nav-link active fw-semibold mx-3" href="my-pets.html">My Pets</a>
+           <a class="nav-link active fw-semibold mx-3" href="my-pets.html">My Pets</a>
           <a class="nav-link mx-3" href="booking-history.html">Booking History</a>
+
           <a class="nav-link mx-3" href="notification.html">Notification</a>
         </div>
         <div class="d-none d-lg-flex">
-
-<div class="dropdown">
-  <button class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center"
-          id="profileDropdown"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-          style="width: 40px; height: 40px; font-weight: 600; font-size: 16px; border: none;">
-    <span id="navbarInitials"></span>
-  </button>
-  <ul class="dropdown-menu dropdown-menu-end shadow-sm p-3" aria-labelledby="profileDropdown" style="min-width: 220px;">
-    <li class="fw-bold" id="dropdownUserName"></li>
-    <li class="text-muted small" id="dropdownUserEmail"></li>
-    <li class="text-muted small mb-2" id="dropdownUserPhone"></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item text-danger" href="#" onclick="signOut()">Sign Out</a></li>
-  </ul>
-</div>
-
-
+          <a href="profile.html" class="nav-link p-0">
+            <img src="assets/icons/profile.png" alt="User Profile Icon" width="30" height="30" class="rounded-circle">
+          </a>
         </div>
       </div>
     </div>
   </nav>
+
+
 
   <div class="container mt-4 mb-2">
     <h1 class="fw-bold" style="font-size: 1.8rem; color: #2F455C;">My Pets</h1>
@@ -100,23 +88,6 @@
 
  
 
-  <!-- Profile Modal -->
-<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content rounded-4 shadow-sm">
-      <div class="modal-body text-center p-4">
-        <div class="d-flex justify-content-center align-items-center bg-primary text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; font-size: 24px; font-weight: 600;">
-          <!-- Initials -->
-          <span id="userInitial"></span>
-        </div>
-        <h5 class="fw-bold mb-1" id="userName"></h5>
-        <p class="text-muted mb-1" id="userEmail"></p>
-        <p class="text-muted mb-3" id="userPhone"></p>
-        <button class="btn btn-outline-danger w-100" onclick="signOut()">Sign Out</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 <script>

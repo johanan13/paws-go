@@ -15,57 +15,34 @@
 </head>
 <body>
 
-  <!-- Responsive Navbar -->
+ <!-- Responsive Navbar -->
   <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container" id="home">
-  
-      <!-- Logo -->
       <a class="navbar-brand" href="#">
-        <img src="assets/p2g-logo-colored-copy.png" alt="Paws2Go logo" width="100" height="30">
-
+        <img src="assets/p2g-logo-colored-copy.png" alt="Paws2Go Logo" width="100" height="32">
       </a>
-  
-      <!-- Profile icon (next to hamburger) -->
+
       <div class="d-lg-none d-flex align-items-center gap-2">
         <a href="profile.html" class="nav-link p-0">
-          <img src="assets/icons/profile.png" alt="Profile Icon" width="30" height="30" class="rounded-circle">
+          <img src="assets/icons/profile.png" alt="User Profile Icon" width="30" height="30" class="rounded-circle">
         </a>
-  
-        <!-- Hamburger Toggle -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
           data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
           aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
-  
-      <!-- Nav Links -->
+
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav mx-auto">
-          <a class="nav-link active fw-semibold mx-3" href="my-pets.html">My Pets</a>
+           <a class="nav-link active fw-semibold mx-3" href="my-pets.html">My Pets</a>
           <a class="nav-link mx-3" href="booking-history.html">Booking History</a>
-
           <a class="nav-link mx-3" href="notification.html">Notification</a>
         </div>
-  
-        <!-- Profile icon for large screens -->
         <div class="d-none d-lg-flex">
-          <div class="dropdown">
-  <button class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center"
-          id="profileDropdown"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-          style="width: 40px; height: 40px; font-weight: 600; font-size: 16px; border: none;">
-    <span id="navbarInitials"></span>
-  </button>
-  <ul class="dropdown-menu dropdown-menu-end shadow-sm p-3" aria-labelledby="profileDropdown" style="min-width: 220px;">
-    <li class="fw-bold" id="dropdownUserName"></li>
-    <li class="text-muted small" id="dropdownUserEmail"></li>
-    <li class="text-muted small mb-2" id="dropdownUserPhone"></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item text-danger" href="#" onclick="signOut()"></a></li>
-  </ul>
-</div>
+          <a href="profile.html" class="nav-link p-0">
+            <img src="assets/icons/profile.png" alt="User Profile Icon" width="30" height="30" class="rounded-circle">
+          </a>
         </div>
       </div>
     </div>
@@ -111,6 +88,7 @@
       <option selected disabled>Select species</option>
       <option>Cat</option>
       <option>Dog</option>
+      <option>Hamster</option>
     </select>
   </div>
 

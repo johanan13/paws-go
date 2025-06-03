@@ -9,7 +9,6 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -433,8 +432,6 @@ app.get('/api/admin/bookings/:bookingId', async (req, res) => {
 
 
 // update status
-
-
 app.put('/api/admin/bookings/:bookingId/status', async (req, res) => {
   try {
     const { bookingId } = req.params;
@@ -470,6 +467,30 @@ app.get('/api/admin/notifications', async (req, res) => {
   try {
     const notifications = await Notification.find().sort({ createdAt: -1 });
     res.json(notifications);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
+
+// profile
+app.get('/api/users/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await User.findById(userId);  // Assuming User is your model
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({
+      full_name: user.full_name,
+      email: user.email,
+      phone: user.phone,
+      role: user.role,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Server error' });

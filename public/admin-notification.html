@@ -15,48 +15,37 @@
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-custom">
-  <div class="container" id="home">
-    <a class="navbar-brand" href="#">
-      <img src="assets/p2g-logo-colored-copy.png" alt="Paws2Go logo" width="100" height="32">
-    </a>
-    <div class="d-lg-none d-flex align-items-center gap-2">
-      <a href="profile.html" class="nav-link p-0">
-        <img src="assets/icons/profile.png" alt="User profile icon" width="30" height="30" class="rounded-circle">
+   <!-- Responsive Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container" id="home">
+      <a class="navbar-brand" href="#">
+        <img src="assets/p2g-logo-colored-copy.png" alt="Paws2Go Logo" width="100" height="32">
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-              data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
-              aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    </div>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav mx-auto">
-        <a class="nav-link mx-3" href="admin-booking-history.html">Booking History</a>
+
+      <div class="d-lg-none d-flex align-items-center gap-2">
+        <a href="profile.html" class="nav-link p-0">
+          <img src="assets/icons/profile.png" alt="User Profile Icon" width="30" height="30" class="rounded-circle">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav mx-auto">
+            <a class="nav-link mx-3" href="admin-booking-history.html">Booking History</a>
         <a class="nav-link active fw-semibold mx-3" href="admin-notification.html">Notification</a>
-      </div>
-      <div class="d-none d-lg-flex">
-       <div class="dropdown">
-  <button class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center"
-          id="profileDropdown"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-          style="width: 40px; height: 40px; font-weight: 600; font-size: 16px; border: none;">
-    <span id="navbarInitials">AB</span>
-  </button>
-  <ul class="dropdown-menu dropdown-menu-end shadow-sm p-3" aria-labelledby="profileDropdown" style="min-width: 220px;">
-    <li class="fw-bold" id="dropdownUserName">Alex Bautista</li>
-    <li class="text-muted small" id="dropdownUserEmail">alexb@example.com</li>
-    <li class="text-muted small mb-2" id="dropdownUserPhone">+63 912 345 6789</li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item text-danger" href="#" onclick="signOut()">Sign Out</a></li>
-  </ul>
-</div>
+        </div>
+        <div class="d-none d-lg-flex">
+          <a href="profile.html" class="nav-link p-0">
+            <img src="assets/icons/profile.png" alt="User Profile Icon" width="30" height="30" class="rounded-circle">
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
 <div class="container mt-4 mb-5">
   <h1 class="fw-bold text-start" style="font-size: 1.8rem; color: #2F455C;">Notifications</h1>
