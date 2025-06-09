@@ -514,43 +514,23 @@ app.put('/api/admin/bookings/:bookingId/status', async (req, res) => {
   try {
     const { bookingId } = req.params;
     const { status, rejectionReason } = req.body;
-
-    // Ensure that the status is provided
     if (!status) {
       return res.status(400).json({ error: 'Status is required' });
     }
-
     const booking = await Booking.findOne({ bookingId });
     if (!booking) {
       return res.status(404).json({ error: 'Booking not found' });
     }
-
-    // Update the booking status
     booking.status = status;
-
-    // If the status is rejected, set the rejection reason
-    if (status.toLowerCase() === 'rejected') {
-      booking.rejectionReason = rejectionReason || '';
-    } else {
-      booking.rejectionReason = undefined;
-    }
-
-    // Save the updated booking
+    booking.rejectionReason = status.toLowerCase() === 'rejected' ? rejectionReason || '' : undefined;
     await booking.save();
 
-    // Create a notification, including the rejection reason if applicable
-    let notificationMessage = `Booking ${booking.serviceType} for ${booking.petName} status changed to ${status}.`;
-    if (status.toLowerCase() === 'rejected' && rejectionReason) {
-      notificationMessage += ` Reason: ${rejectionReason}`;
-    }
-
+    // Create notification
     const newNotification = new Notification({
       ownerId: booking.ownerId,
       bookingId,
-      message: notificationMessage,
+      message: `Booking ${booking.serviceType} for ${booking.petName} status changed to ${status}.`
     });
-
-    // Save the notification
     await newNotification.save();
 
     res.json({ message: 'Status updated successfully' });
@@ -559,7 +539,6 @@ app.put('/api/admin/bookings/:bookingId/status', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
-
 
 // admin notification
 app.get('/api/admin/notifications', async (req, res) => {

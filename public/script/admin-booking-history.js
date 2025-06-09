@@ -1,0 +1,243 @@
+
+  async function loadAdminBookings() {
+    try {
+      const res = await fetch('http://localhost:5000/api/admin/bookings');
+      if (!res.ok) throw new Error('Failed to fetch bookings');
+
+      const bookings = await res.json();
+      const tableBody = document.getElementById('bookingTable');
+      tableBody.innerHTML = '';
+
+      if (bookings.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="10" class="text-center text-muted">No bookings found.</td></tr>`;
+        return;
+      }
+
+      bookings.forEach((booking, index) => {
+        const bookingId = booking.bookingId || 'N/A';
+        const petName = booking.petName || (booking.petId?.name) || 'Unknown';
+        const serviceType = booking.serviceType || 'N/A';
+
+        const bookingDate = new Date(booking.date);
+        const dateStr = bookingDate.toLocaleDateString(undefined, {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        });
+        const timeStr = booking.time || '';
+
+        const location = booking.location || '';
+        const notes = booking.notes || '';
+        const ownerPhone = booking.ownerId?.phone || 'N/A';
+        const paymentMethod = booking.paymentMethod || '';
+
+        let statusBadge = '';
+        switch ((booking.status || '').toLowerCase()) {
+          case 'submitted':
+            statusBadge = `<span class="status-badge status-submitted">Submitted</span>`;
+            break;
+          case 'accepted':
+            statusBadge = `<span class="status-badge status-accepted">Accepted</span>`;
+            break;
+          case 'on the way':
+            statusBadge = `<span class="status-badge status-ontheway">On The Way</span>`;
+            break;
+          case 'in progress':
+            statusBadge = `<span class="status-badge status-inprogress">In Progress</span>`;
+            break;
+          case 'completed':
+            statusBadge = `<span class="status-badge status-completed">Completed</span>`;
+            break;
+          case 'rejected':
+            statusBadge = `<span class="status-badge status-rejected">Rejected</span>`;
+            break;
+          default:
+            statusBadge = `<span class="status-badge">${booking.status || 'Unknown'}</span>`;
+        }
+
+        tableBody.innerHTML += `
+          <tr data-bookingid="${bookingId}" style="cursor:pointer" data-status="${booking.status}">
+            <td>${bookingId}</td>
+            <td>${petName}</td>
+            <td>${serviceType}</td>
+            <td>${dateStr} ${timeStr}</td>
+            <td>${location}</td>
+            <td>${ownerPhone}</td>
+            <td>${statusBadge}</td>
+          </tr>
+        `;
+      });
+
+      // TODO: Attach your modal click handlers here if needed (same as your existing script)
+
+    } catch (error) {
+      console.error(error);
+      alert('Failed to load booking history. Please try again later.');
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', loadAdminBookings);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const bookingTable = document.getElementById("bookingTable");
+  const modal = new bootstrap.Modal(
+    document.getElementById("bookingDetailModal")
+  );
+  const modalDetailsBody = document.getElementById("modalBookingDetails");
+  const modalStatusSelect = document.getElementById("modalStatusSelect");
+  const rejectionReasonContainer = document.getElementById(
+    "rejectionReasonContainer"
+  );
+  const rejectionReasonTextarea = document.getElementById("rejectionReason");
+  const modalSaveBtn = document.getElementById("modalSaveBtn");
+
+  let currentBooking = null;
+  let originalStatus = null;
+
+  // Map status to badge class
+  function getStatusBadgeClass(status) {
+    switch (status.toLowerCase()) {
+      case "submitted": return "status-submitted";
+      case "accepted": return "status-accepted";
+      case "on the way": return "status-ontheway";
+      case "in progress": return "status-inprogress";
+      case "completed": return "status-completed";
+      case "rejected": return "status-rejected";
+      default: return "";
+    }
+  }
+
+  // Helper to format date/time nicely
+  function formatDateTime(dateStr, timeStr) {
+    const date = new Date(dateStr);
+    const formattedDate = date.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+    return `${formattedDate} ${timeStr || ""}`.trim();
+  }
+
+  bookingTable.addEventListener("click", async (e) => {
+    // Find the closest <tr> (clicked row)
+    const row = e.target.closest("tr");
+    if (!row) return;
+
+    const bookingId = row.getAttribute("data-bookingid");
+    if (!bookingId) return;
+
+    try {
+      // Fetch full booking info including pet & owner details
+      const res = await fetch(`http://localhost:5000/api/admin/bookings/${bookingId}`);
+      if (!res.ok) throw new Error("Failed to fetch booking details");
+      const booking = await res.json();
+
+      currentBooking = booking;
+      originalStatus = booking.status || "Submitted";
+
+      // Clear modal content
+      modalDetailsBody.innerHTML = "";
+
+      // Pet Details Section
+      const pet = booking.petId || {};
+      const owner = booking.ownerId || {};
+
+      const petDetailsHTML = `
+        <tr><th colspan="2" class="fw-bold">Pet Details</th></tr>
+        <tr><th>Name</th><td>${pet.name || "N/A"}</td></tr>
+        <tr><th>Species</th><td>${pet.species || "N/A"}</td></tr>
+        <tr><th>Breed</th><td>${pet.breed || "N/A"}</td></tr>
+        <tr><th>Birthdate</th><td>${pet.birthdate ? new Date(pet.birthdate).toLocaleDateString() : "N/A"}</td></tr>
+        <tr><th>Gender</th><td>${pet.gender || "N/A"}</td></tr>
+        <tr><th>Weight</th><td>${pet.weight || "N/A"}</td></tr>
+        <tr><th>Vaccination Status</th><td>${pet.vaccinationStatus || "N/A"}</td></tr>
+        <tr><th>Allergies</th><td>${pet.allergies && pet.allergies.length ? pet.allergies.join(", ") : "None"}</td></tr>
+        <tr><th>Medical History</th><td>${pet.medicalHistory && pet.medicalHistory.length
+          ? pet.medicalHistory.map(h => `${new Date(h.date).toLocaleDateString()}: ${h.description}`).join("<br>")
+          : "None"}</td></tr>
+      `;
+
+      // Booking Details Section
+      const bookingDetailsHTML = `
+        <tr><th colspan="2" class="fw-bold mt-3">Booking Details</th></tr>
+        <tr><th>Booking ID</th><td>${booking.bookingId || "N/A"}</td></tr>
+        <tr><th>Pet Name</th><td>${booking.petName || pet.name || "N/A"}</td></tr>
+        <tr><th>Service</th><td>${booking.serviceType || "N/A"}</td></tr>
+        <tr><th>Date & Time</th><td>${formatDateTime(booking.date, booking.time)}</td></tr>
+        <tr><th>Location</th><td>${booking.location || "N/A"}</td></tr>
+        <tr><th>Notes</th><td>${booking.notes || "N/A"}</td></tr>
+        <tr><th>Payment</th><td>${booking.paymentMethod || "N/A"}</td></tr>
+      `;
+
+      // Owner Details Section
+      const ownerDetailsHTML = `
+        <tr><th colspan="2" class="fw-bold mt-3">Owner Details</th></tr>
+        <tr><th>Name</th><td>${owner.full_name || "N/A"}</td></tr>
+        <tr><th>Phone</th><td>${owner.phone || "N/A"}</td></tr>
+        <tr><th>Email</th><td>${owner.email || "N/A"}</td></tr>
+      `;
+
+      modalDetailsBody.innerHTML = bookingDetailsHTML + petDetailsHTML + ownerDetailsHTML;
+
+
+      // Set modal status dropdown & reset rejection reason
+      modalStatusSelect.value = originalStatus;
+      rejectionReasonTextarea.value = "";
+      rejectionReasonContainer.style.display = "none";
+
+      modal.show();
+    } catch (error) {
+      console.error("Error loading booking details:", error);
+      alert("Failed to load booking details. Please try again.");
+    }
+  });
+
+  // Show/hide rejection reason textarea based on status
+  modalStatusSelect.addEventListener("change", () => {
+    if (modalStatusSelect.value === "Rejected") {
+      rejectionReasonContainer.style.display = "block";
+      rejectionReasonTextarea.focus();
+    } else {
+      rejectionReasonContainer.style.display = "none";
+      rejectionReasonTextarea.value = "";
+    }
+  });
+
+  // Save changes button: TODO - send updated status & rejection reason to backend
+  modalSaveBtn.addEventListener("click", async () => {
+    const newStatus = modalStatusSelect.value;
+    const reason = rejectionReasonTextarea.value.trim();
+
+    if (newStatus === "Rejected" && !reason) {
+      alert("Please provide a reason for rejection.");
+      rejectionReasonTextarea.focus();
+      return;
+    }
+
+    try {
+      // Example API call to update status — implement your backend route accordingly
+      const response = await fetch(`http://localhost:5000/api/admin/bookings/${currentBooking.bookingId}/status`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus, rejectionReason: reason }),
+      });
+
+      if (!response.ok) throw new Error("Failed to update status");
+
+      // Update table row
+      const rows = document.querySelectorAll(`#bookingTable tr[data-bookingid="${currentBooking.bookingId}"]`);
+      rows.forEach(row => {
+        row.setAttribute("data-status", newStatus);
+        const statusCell = row.querySelector("td:last-child");
+        statusCell.innerHTML = `<span class="status-badge ${getStatusBadgeClass(newStatus)}">${newStatus}</span>`;
+      });
+
+      modal.hide();
+      alert("Status updated successfully!");
+    } catch (err) {
+      console.error("Error updating status:", err);
+      alert("Failed to update status. Please try again.");
+    }
+  });
+});
+

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Pet Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/new-pet-profile.css">
+</head>
+<body>
+
+ <!-- Responsive Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container" id="home">
+      <a class="navbar-brand" href="#">
+        <img src="assets/p2g-logo-colored-copy.png" alt="Paws2Go Logo" width="100" height="32">
+      </a>
+
+      <div class="d-lg-none d-flex align-items-center gap-2">
+        <a href="profile.html" class="nav-link p-0">
+          <img src="assets/icons/profile.png" alt="User Profile Icon" width="30" height="30" class="rounded-circle">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav mx-auto">
+           <a class="nav-link active fw-semibold mx-3" href="my-pets.html">My Pets</a>
+          <a class="nav-link mx-3" href="booking-history.html">Booking History</a>
+          <a class="nav-link mx-3" href="notification.html">Notification</a>
+        </div>
+        <div class="d-none d-lg-flex">
+          <a href="profile.html" class="nav-link p-0">
+            <img src="assets/icons/profile.png" alt="User Profile Icon" width="30" height="30" class="rounded-circle">
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4 mb-2">
+    <h1 class="fw-bold" style="font-size: 1.8rem; color: #2F455C;">Edit Pet Profile</h1>
+  </div>
+  
+  <div class="container mb-5">
+    <form id="pet-profile-form" enctype="multipart/form-data" class="bg-white shadow-sm p-4 rounded-4">
+
+      <!-- Image Upload Section -->
+      <div class="d-flex align-items-center mb-4">
+        <!-- Hidden file input -->
+        <input type="file" id="petPhotoInput" name="petPhoto" accept="image/*" class="d-none" aria-label="Upload pet photo">
+
+        <!-- Clickable circular image placeholder -->
+        <div class="me-3">
+          <div id="photoPreview" class="rounded-circle bg-light d-flex align-items-center justify-content-center"
+               style="width: 80px; height: 80px; border: 2px solid #ccc; cursor: pointer;">
+            <i class="bi bi-plus fs-3 text-muted"></i>
+          </div>
+        </div>
+
+        <!-- Upload button -->
+        <div>
+          <button type="button" id="img" name="img" class="btn btn-outline-secondary btn-sm" onclick="document.getElementById('petPhotoInput').click()">Upload photo (optional)</button>
+        </div>
+      </div>
+
+      <!-- Input Grid -->
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="name" class="form-label">Pet Name</label>
+          <input type="text" id="name" name="name" class="form-control" placeholder="Enter name">
+        </div>
+        <div class="col-md-6">
+          <label for="species" class="form-label">Species</label>
+          <select id="species" name="species" class="form-select">
+            <option selected disabled>Select species</option>
+            <option>Cat</option>
+            <option>Dog</option>
+            <option>Hamster</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label for="breed" class="form-label">Breed</label>
+          <input type="text" id="breed" name="breed" class="form-control" placeholder="Enter Breed">
+        </div>
+        <div class="col-md-6">
+          <label for="birthdate" class="form-label">Birthdate</label>
+          <input type="date" id="birthdate" name="birthdate" class="form-control" placeholder="Enter birthdate">
+        </div>
+
+        <div class="col-md-6">
+          <label for="gender" class="form-label">Gender</label>
+          <select id="gender" name="gender" class="form-select">
+            <option selected disabled>Select gender</option>
+            <option>Male</option>
+            <option>Female</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="weight" class="form-label">Weight (Optional)</label>
+          <input type="text" id="weight" name="weight" class="form-control" placeholder="Enter weight">
+        </div>
+
+        <div class="col-md-6">
+          <label for="vs" class="form-label">Vaccination Status</label>
+          <select id="vs" name="vs" class="form-select">
+            <option selected disabled>Yes/No</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Allergies / Existing Conditions</label>
+          <div id="allergiesList" class="mb-3">
+            <!-- Allergy entries will appear here -->
+          </div>
+          <button type="button" class="btn btn-outline-primary btn-sm" onclick="addAllergyEntry()">
+            + Add Allergy
+          </button>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">Medical History</label>
+          <div id="medicalHistoryList" class="mb-3">
+            <!-- Existing entries will be appended here -->
+          </div>
+          <button type="button" class="btn btn-outline-primary btn-sm" onclick="addMedicalHistoryEntry()">
+            + Add Medical History Entry
+          </button>
+        </div>
+      </div>
+
+      <div class="col-12 mt-4">
+        <button type="submit" class="btn w-100 fw-semibold btn-submit-profile">Submit Profile</button>
+      </div>
+
+    </form>
+  </div>
+
+<script>
+  // Function to add allergy entries
+  function addAllergyEntry() {
+    const container = document.getElementById('allergiesList');
+    const entry = document.createElement('div');
+    entry.classList.add('mb-3', 'd-flex', 'gap-2', 'align-items-center');
+    entry.innerHTML = `
+      <input type="text" name="allergies_desc[]" class="form-control" placeholder="Enter allergy or condition" required>
+      <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.remove()">Remove</button>
+    `;
+    container.appendChild(entry);
+  }
+
+  // Function to add medical history entries
+  function addMedicalHistoryEntry() {
+    const container = document.getElementById('medicalHistoryList');
+    const entry = document.createElement('div');
+    entry.classList.add('mb-3', 'border', 'p-3', 'rounded');
+    entry.innerHTML = `
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <label class="form-label mb-0">Entry</label>
+        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()">
+          Remove
+        </button>
+      </div>
+      <div class="mb-2">
+        <label for="entryDate" class="form-label">Date</label>
+        <input type="date" name="meds_history_date[]" class="form-control" required>
+      </div>
+      <div>
+        <label for="entryDescription" class="form-label">Description</label>
+        <textarea name="meds_history_desc[]" rows="2" class="form-control" placeholder="Enter description" required></textarea>
+      </div>
+    `;
+    container.appendChild(entry);
+  }
+const urlParams = new URLSearchParams(window.location.search);
+const petId = urlParams.get('petId');
+console.log('Pet ID from URL:', petId); // This should print the correct petId
+// Verify if this is the correct ID
+ // Debugging log to verify petId
+
+async function fetchPetData() {
+  try {
+    console.log('Fetching pet with _id:', petId);
+    const response = await fetch(`http://localhost:5000/api/pets/${petId}`);
+    
+    // Log the raw response
+    const pet = await response.json();
+    console.log('Fetched pet details:', pet);  // This should show the pet data
+
+    if (response.ok && pet) {
+      // Populate the form with the pet data
+      document.getElementById('name').value = pet.name;
+      document.getElementById('species').value = pet.species;
+      document.getElementById('breed').value = pet.breed;
+      const birthdate = new Date(pet.birthdate);
+      document.getElementById('birthdate').value = !isNaN(birthdate) ? birthdate.toISOString().split('T')[0] : '';
+      document.getElementById('gender').value = pet.gender;
+      document.getElementById('weight').value = pet.weight;
+      document.getElementById('vs').value = pet.vaccinationStatus;
+      const photoPreview = document.getElementById('photoPreview');
+      photoPreview.style.backgroundImage = `url(${pet.photoUrl || './assets/pets/default-pet.png'})`;
+    } else {
+      console.error('Failed to load pet data:', pet);
+      alert('Failed to load pet data');
+    }
+  } catch (error) {
+    console.error('Error fetching pet data', error);
+    alert('Error fetching pet data');
+  }
+}
+
+
+  // Call the fetchPetData function when the page loads
+  window.onload = fetchPetData;
+
+  // Form submit handler to update pet data
+  const form = document.getElementById('pet-profile-form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const petPhotoInput = document.getElementById('petPhotoInput');
+    if (petPhotoInput.files.length > 0) {
+      formData.append('petPhoto', petPhotoInput.files[0]);
+    }
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/pets/${petId}`, {
+        method: 'PUT',
+        body: formData,
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert('Pet profile updated successfully');
+        window.location.href = 'my-pets.html';
+      } else {
+        alert(result.error || 'Failed to update pet profile.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Error updating pet profile');
+    }
+  });
+</script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
