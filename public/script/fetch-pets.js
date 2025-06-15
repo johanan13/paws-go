@@ -61,7 +61,9 @@
                   </div>
                   <!-- Edit and Delete Buttons -->
                   <div class="d-flex justify-content-end mt-3">
-                   
+                    <button class="btn btn-warning me-2" data-bs-dismiss="modal" onclick="editPet('${pet._id}')">
+                      <i class="bi bi-pencil-square"></i> Edit
+                    </button>
                     <button class="btn btn-danger" data-bs-dismiss="modal" onclick="deletePet('${pet._id}')">
                       <i class="bi bi-trash"></i> Delete
                     </button>
@@ -85,12 +87,10 @@
 
   // Edit Pet functionality (redirect to an edit page or open a modal with editable fields)
 // Edit Pet button inside your pet profile modal
-// function editPet(petId) {
-//   window.location.href = `edit-pet-profile.html?petId=${petId}`;
-// }
- // <button class="btn btn-warning me-2" data-bs-dismiss="modal" onclick="editPet('${pet._id}')">
-                    //   <i class="bi bi-pencil-square"></i> Edit
-                    // </button>
+function editPet(petId) {
+  window.location.href = `edit-pet-profile.html?petId=${petId}`;
+}
+
                     
 
   // Delete Pet functionality

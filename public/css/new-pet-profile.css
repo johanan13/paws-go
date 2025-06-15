@@ -71,3 +71,11 @@ body {
     color: white;
   }
 
+#photoPreview {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; /* or contain */
+  width: 200px; /* example, adjust to fit layout */
+  height: 200px; /* keep it square to avoid distortion */
+  border-radius: 10px;
+}

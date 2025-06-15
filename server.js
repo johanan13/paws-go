@@ -274,54 +274,70 @@ app.get('/api/pets/:ownerId', async (req, res) => {
 });
 
 
-// //fetch pets
-// app.get('/api/pets/:id', async (req, res) => {
-//   try {
-//     const petId = req.params.id;
-//     console.log('Backend: Attempting to fetch pet with _id:', petId);
-
-//     // Validate if petId is a valid Mongoose ObjectId
-//     if (!mongoose.Types.ObjectId.isValid(petId)) {
-//       console.error('Backend: Invalid Pet ID format provided:', petId);
-//       return res.status(400).json({ error: 'Invalid Pet ID format' });
-//     }
-
-//     const objectId = mongoose.Types.ObjectId(petId);
-//     console.log('Backend: Converted to ObjectId:', objectId); // Log the converted ID
-
-//     const pet = await Pet.findById(objectId);
-
-//     if (!pet) {
-//       console.log('Backend: Pet not found for _id:', petId); // Crucial log
-//       return res.status(404).json({ error: 'Pet not found' });
-//     }
-
-//     console.log('Backend: Found pet:', pet); // This is what we want to see!
-//     res.json(pet);
-//   } catch (error) {
-//     console.error('Backend: Error fetching pet data:', error); // Any other errors here?
-//     res.status(500).json({ error: 'Error fetching pet data' });
-//   }
-// });
+// Get a single pet by its _id
+app.get('/api/pets/single/:id', async (req, res) => {
+  try {
+    const pet = await Pet.findById(req.params.id);
+    if (!pet) {
+      return res.status(404).json({ error: 'Pet not found' });
+    }
+    res.json(pet);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error fetching pet' });
+  }
+});
 
 
+// UPDATE PET
+app.put('/api/pets/:id', upload.single('petPhoto'), async (req, res) => {
+  try {
+    const petId = req.params.id;
 
+    let {
+      name,
+      species,
+      breed,
+      birthdate,
+      gender,
+      weight,
+      vaccinationStatus,
+      allergies,
+      medicalHistory
+    } = req.body;
 
-// // Update a pet profile
-// app.put('/api/pets/:petId', upload.single('petPhoto'), async (req, res) => {
-//   try {
-//     const petData = { ...req.body };
-//     if (req.file) {
-//       petData.photoUrl = `/uploads/${req.file.filename}`;
-//     }
+    // Parse if received as JSON strings
+    allergies = typeof allergies === 'string' ? JSON.parse(allergies) : allergies;
+    medicalHistory = typeof medicalHistory === 'string' ? JSON.parse(medicalHistory) : medicalHistory;
 
-//     const pet = await Pet.findByIdAndUpdate(req.params.petId, petData, { new: true });
-//     res.json({ message: 'Pet profile updated successfully', pet });
-//   } catch (error) {
-//     res.status(500).json({ error: 'Server error' });
-//   }
-// });
+    const updateFields = {
+      name,
+      species,
+      breed,
+      birthdate,
+      gender,
+      weight,
+      vaccinationStatus,
+      allergies,
+      medicalHistory
+    };
 
+    if (req.file) {
+      updateFields.photoUrl = `/uploads/${req.file.filename}`;
+    }
+
+    const updatedPet = await Pet.findByIdAndUpdate(petId, updateFields, { new: true });
+
+    if (!updatedPet) {
+      return res.status(404).json({ error: 'Pet not found.' });
+    }
+
+    res.status(200).json({ message: 'Pet updated successfully', pet: updatedPet });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error while updating pet.' });
+  }
+});
 
 
 // delete pet

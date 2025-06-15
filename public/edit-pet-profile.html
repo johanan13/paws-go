@@ -141,12 +141,35 @@
         </div>
       </div>
 
-      <div class="col-12 mt-4">
-        <button type="submit" class="btn w-100 fw-semibold btn-submit-profile">Submit Profile</button>
-      </div>
+<div class="d-flex gap-2 mt-4">
+  <button type="button" class="btn btn-primary w-100 fw-semibold" data-bs-toggle="modal" data-bs-target="#editConfirmModal">
+  Edit
+</button>
+<a href="my-pets.html" class="btn btn-secondary w-100 fw-semibold">Cancel</a>
+</div>
+
 
     </form>
   </div>
+
+  <!-- Edit Confirmation Modal -->
+<div class="modal fade" id="editConfirmModal" tabindex="-1" aria-labelledby="editConfirmLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow rounded-4">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold" id="editConfirmLabel">Confirm Edit</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        Are you sure you want to save the changes to this pet profile?
+      </div>
+      <div class="modal-footer justify-content-center gap-2">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" id="confirmEditBtn">Yes, Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
   // Function to add allergy entries
@@ -193,8 +216,9 @@ console.log('Pet ID from URL:', petId); // This should print the correct petId
 async function fetchPetData() {
   try {
     console.log('Fetching pet with _id:', petId);
-    const response = await fetch(`http://localhost:5000/api/pets/${petId}`);
-    
+
+const response = await fetch(`http://localhost:5000/api/pets/single/${petId}`);
+
     // Log the raw response
     const pet = await response.json();
     console.log('Fetched pet details:', pet);  // This should show the pet data
@@ -211,6 +235,48 @@ async function fetchPetData() {
       document.getElementById('vs').value = pet.vaccinationStatus;
       const photoPreview = document.getElementById('photoPreview');
       photoPreview.style.backgroundImage = `url(${pet.photoUrl || './assets/pets/default-pet.png'})`;
+      // Fill allergy list
+if (pet.allergies && Array.isArray(pet.allergies)) {
+  const allergyList = document.getElementById('allergiesList');
+  allergyList.innerHTML = '';
+  pet.allergies.forEach(allergy => {
+    const entry = document.createElement('div');
+    entry.className = 'mb-3 d-flex gap-2 align-items-center';
+    entry.innerHTML = `
+      <input type="text" name="allergies_desc[]" class="form-control" value="${allergy}" required>
+      <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.remove()">Remove</button>
+    `;
+    allergyList.appendChild(entry);
+  });
+}
+
+// Fill medical history
+if (pet.medicalHistory && Array.isArray(pet.medicalHistory)) {
+  const medList = document.getElementById('medicalHistoryList');
+  medList.innerHTML = '';
+  pet.medicalHistory.forEach(entry => {
+    const date = new Date(entry.date);
+    medList.innerHTML += `
+      <div class="mb-3 border p-3 rounded">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <label class="form-label mb-0">Entry</label>
+          <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()">
+            Remove
+          </button>
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Date</label>
+          <input type="date" name="meds_history_date[]" class="form-control" value="${date.toISOString().split('T')[0]}" required>
+        </div>
+        <div>
+          <label class="form-label">Description</label>
+          <textarea name="meds_history_desc[]" rows="2" class="form-control" required>${entry.description}</textarea>
+        </div>
+      </div>
+    `;
+  });
+}
+
     } else {
       console.error('Failed to load pet data:', pet);
       alert('Failed to load pet data');
@@ -226,34 +292,49 @@ async function fetchPetData() {
   window.onload = fetchPetData;
 
   // Form submit handler to update pet data
-  const form = document.getElementById('pet-profile-form');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
 
-    const formData = new FormData(form);
-    const petPhotoInput = document.getElementById('petPhotoInput');
-    if (petPhotoInput.files.length > 0) {
-      formData.append('petPhoto', petPhotoInput.files[0]);
+const form = document.getElementById('pet-profile-form');
+const confirmBtn = document.getElementById('confirmEditBtn');
+
+confirmBtn.addEventListener('click', async () => {
+  const formData = new FormData(form);
+  const petPhotoInput = document.getElementById('petPhotoInput');
+  if (petPhotoInput.files.length > 0) {
+    formData.append('petPhoto', petPhotoInput.files[0]);
+  }
+
+  const allergies = [...form.querySelectorAll('input[name="allergies_desc[]"]')].map(input => input.value);
+  const medicalHistory = [...form.querySelectorAll('input[name="meds_history_date[]"]')].map((dateInput, index) => ({
+    date: dateInput.value,
+    description: form.querySelectorAll('textarea[name="meds_history_desc[]"]')[index].value,
+  }));
+
+  formData.append('allergies', JSON.stringify(allergies));
+  formData.append('medicalHistory', JSON.stringify(medicalHistory));
+
+  try {
+    const response = await fetch(`http://localhost:5000/api/pets/${petId}`, {
+      method: 'PUT',
+      body: formData,
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      // Close modal and redirect
+      const modal = bootstrap.Modal.getInstance(document.getElementById('editConfirmModal'));
+      modal.hide();
+      alert('Pet profile updated successfully');
+      window.location.href = 'my-pets.html';
+    } else {
+      alert(result.error || 'Failed to update pet profile.');
     }
+  } catch (error) {
+    console.error(error);
+    alert('Error updating pet profile');
+  }
+});
 
-    try {
-      const response = await fetch(`http://localhost:5000/api/pets/${petId}`, {
-        method: 'PUT',
-        body: formData,
-      });
 
-      const result = await response.json();
-      if (response.ok) {
-        alert('Pet profile updated successfully');
-        window.location.href = 'my-pets.html';
-      } else {
-        alert(result.error || 'Failed to update pet profile.');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('Error updating pet profile');
-    }
-  });
 </script>
 
   <!-- Bootstrap JS -->

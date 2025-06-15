@@ -22,17 +22,17 @@ form.addEventListener('submit', async (e) => {
 
     if (response.ok) {
       localStorage.setItem('userId', data.user._id);
-      localStorage.setItem('userRole', data.user.role); // save role too
+      localStorage.setItem('userRole', data.user.role);
 
-      alert('Login successful! Redirecting...');
+      showToast('Login successful! Redirecting...');
 
-      // Redirect based on role
-      if (data.user.role === 'admin') {
-        window.location.href = 'admin-booking-history.html';
-      } else {
-        // default to user dashboard
-        window.location.href = 'my-pets.html';
-      }
+      setTimeout(() => {
+        if (data.user.role === 'admin') {
+          window.location.href = 'admin-booking-history.html';
+        } else {
+          window.location.href = 'my-pets.html';
+        }
+      }, 3000);
     } else {
       alert(data.error || 'Invalid email or password.');
     }
@@ -41,3 +41,26 @@ form.addEventListener('submit', async (e) => {
     alert('Server error. Please try again later.');
   }
 });
+
+// ✅ Toast function – only called on success
+function showToast(message) {
+  let toast = document.getElementById('toastMessage');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toastMessage';
+    toast.className = 'position-fixed bottom-0 start-50 translate-middle-x bg-success text-white px-4 py-2 rounded shadow';
+    toast.style.zIndex = '1055';
+    toast.style.transition = 'opacity 0.3s ease-in-out';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.style.display = 'block';
+  toast.style.opacity = '1';
+
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => {
+      toast.style.display = 'none';
+    }, 200);
+  }, 2000);
+}
